@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>工具测试</title>
+  <script src="../node_modules/xlsx/xlsx.mini.js"></script>
+  <script src="../dist/utils.min.js"></script>
+</head>
+
+<body>
+  <button onclick="download()">下载</button>
+  <script>
+    // utils.exportXlsx([{ a: 1, b: 2, c: 3 }], { a: "我", b: "是", c: "谁" },'t');
+
+    const down = utils.asyncExportXlsxFile({
+      format: {
+        a: "我", b: "是", c: "谁"
+      },
+      callback(index) {
+        return [{ a: index * 10, b: index * 20, c: index * 103 }];
+      },
+      filename: 't1',
+    });
+    function download(){
+      down(0, 5);
+    }
+  </script>
+</body>
+
+
+</html>
