@@ -1,5 +1,5 @@
 {
-  "name": "@bucai/utils",
+  "name": "@notbucai/utils",
   "version": "1.0.0",
   "description": "不才的工具包",
   "main": "src/index.ts",
@@ -12,6 +12,9 @@
   "keywords": [],
   "author": "不才 <1450941858@qq.com> (http://blog.ncgame.cc/)",
   "license": "ISC",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "dependencies": {
     "@babel/polyfill": "^7.10.4",
     "core-js": "^2.6.11",
