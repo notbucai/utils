@@ -6,4 +6,4 @@
 ![https://img.shields.io/github/languages/top/notbucai/utils](https://img.shields.io/github/languages/top/notbucai/utils)
 
 
-## [文档]()
+[点我看文档](https://notbucai.github.io/utils/globals.html)
