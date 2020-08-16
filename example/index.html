@@ -7,24 +7,48 @@
   <title>工具测试</title>
   <script src="../node_modules/xlsx/xlsx.mini.js"></script>
   <script src="../dist/utils.min.js"></script>
+  <style>
+    .mb2 {
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 
 <body>
-  <button onclick="download()">下载</button>
+  <div class="mb2">
+    <p>下载</p>
+    <button onclick="download(this)">点我下载异步生成的数据</button>
+  </div>
+  <div class="mb2">
+    <p>解析</p>
+    <input type="file" onchange="load(this)">
+  </div>
+  <div class="mb2">
+    <textarea id="result"></textarea>
+  </div>
   <script>
     // utils.exportXlsx([{ a: 1, b: 2, c: 3 }], { a: "我", b: "是", c: "谁" },'t');
-
+    const format = { a: "我", b: "是", c: "谁" };
     const down = utils.asyncExportXlsxFile({
-      format: {
-        a: "我", b: "是", c: "谁"
-      },
+      format,
       callback(index) {
-        return [{ a: index * 10, b: index * 20, c: index * 103 }];
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve([{ a: index * 10, b: index * 20, c: index * 103 }]);
+          }, 300 * index);
+        });
       },
       filename: 't1',
     });
-    function download(){
+    function download(el) {
+      el.innerHTML = '异步数据加载并生成中';
       down(0, 5);
+    }
+    async function load(e) {
+      const file = e.files[0];
+
+      const result = await utils.xlsxFileToJson(file, format);
+      document.querySelector('#result').inn = JSON.stringify(result, null, 2);
     }
   </script>
 </body>

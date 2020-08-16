@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require('webpack');
 const package = require('./package.json');
+const TypedocWebpackPlugin = require('typedoc-webpack-plugin');
 
 module.exports = {
   // mode: "development",
@@ -38,7 +39,14 @@ module.exports = {
       github : https://github.com/notbucai
       version : ${package.version}
       `
-    })
+    }),
+    new TypedocWebpackPlugin({
+      out: '../docs',
+      "target": "esnext",
+      exclude: '**/node_modules/**/*.*',
+      experimentalDecorators: true,
+      excludeExternals: true
+    }, './src')
   ],
   devtool: 'source-map'
   // devtool: "inline-source-map"

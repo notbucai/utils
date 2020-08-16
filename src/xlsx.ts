@@ -1,16 +1,23 @@
-import { utils, writeFile } from 'xlsx';
+import { utils, writeFile, read } from 'xlsx';
 import { cloneDeep } from 'lodash';
 
-type formatType = {
+/**
+ * 解析对象类型
+ */
+export type formatType = {
   [k: string]: string
 };
 
-type callbackfnType<T> = (index: number, prevLastItem?: T, prevList?: T[]) => Promise<T[]>;
+/**
+ * 异步导出xlsx文件 回调函数类型
+ */
+export type callbackfnType<T> = (index: number, prevLastItem?: T, prevList?: T[]) => Promise<T[]>;
 
 /**
+ * 异步导出xlsx文件的输入类型
  * @description 异步导出
  */
-type exportXlsxFileOptionsType<T> = {
+export type exportXlsxFileOptionsType<T> = {
   // 解析对象
   format: formatType,
   // 回调函数 每页都会调用
@@ -22,9 +29,11 @@ type exportXlsxFileOptionsType<T> = {
   // 是否同步执行 一般用于需要上一页lastId
   sync?: boolean,
 }
+
 /**
  * 通过异步数据导出xlsx文件
  * @param {exportXlsxFileOptionsType<T>} options 参数对象
+ * @description 通过异步数据导出xlsx文件
  */
 export function asyncExportXlsxFile<T> (options: exportXlsxFileOptionsType<T>) {
   if (!options) throw new Error('需要一个参数但是你啥也没传');
@@ -76,7 +85,7 @@ export function asyncExportXlsxFile<T> (options: exportXlsxFileOptionsType<T>) {
 
 /**
  * 简单导出表格
- * @param json josn数据
+ * @param { T[] } json josn数据
  * @param format key：value
  * @param filename 导出文件名
  */
@@ -99,4 +108,41 @@ export function exportXlsx<T> (jsonArray: T[], format: formatType, filename: str
   wb.SheetNames.push(sheetName)
   wb.Sheets[sheetName] = ws;
   writeFile(wb, filename + '.xlsx');
+}
+
+/**
+ * xlsx文件转jsonarray
+ * @param {File} file 文件
+ * @param {object} format 解析对象
+ */
+export function xlsxFileToJson<T> (file: File, format: formatType) {
+
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const data = e.target.result;
+      const wb = read(data, { type: "binary" });
+      const listData = utils.sheet_to_json<T>(wb.Sheets[wb.SheetNames[0]]);
+
+      function findKey (obj: formatType, value: any, compare = (a: any, b: any) => a === b) {
+        return Object.keys(obj).find(k => compare(obj[k], value))
+      }
+      const cloneList = cloneDeep(listData);
+      cloneList.forEach(item => {
+        for (let i in item) {
+          const key = findKey(format, i);
+          if (format.hasOwnProperty(key)) {
+            item[key] = item[i];
+          }
+          delete item[i]; //删除原先的对象属性
+        }
+      });
+      resolve(Object.assign([], cloneList).filter(item => Object.keys(item).length));
+    };
+    reader.onerror = (e: Event) => {
+      return reject(e);
+    }
+    reader.readAsBinaryString(file);
+  })
+
 }
