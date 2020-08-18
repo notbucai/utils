@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>工具测试</title>
-  <script src="../node_modules/xlsx/xlsx.mini.js"></script>
+  <script src="../node_modules/pdfjs-dist/build/pdf.min.js"></script>
   <script src="../dist/utils.min.js"></script>
   <style>
     .mb2 {
@@ -27,6 +27,7 @@
     <textarea id="result"></textarea>
   </div>
   <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '../node_modules/pdfjs-dist/build/pdf.worker.min.js'
     // utils.exportXlsx([{ a: 1, b: 2, c: 3 }], { a: "我", b: "是", c: "谁" },'t');
     const format = { a: "我", b: "是", c: "谁" };
     const down = utils.asyncExportXlsxFile({
@@ -46,10 +47,29 @@
     }
     async function load(e) {
       const file = e.files[0];
+      try {
+        console.time(1);
+        const pdf = await utils.pdfParse(file);
+        console.timeEnd(1);
 
-      const result = await utils.xlsxFileToJson(file, format);
-      document.querySelector('#result').inn = JSON.stringify(result, null, 2);
+        console.log('pdf', pdf);
+
+        console.time('toBase64');
+        const data = await pdf.toBase64();
+        console.log('data', data.length);
+        console.timeEnd('toBase64');
+
+        console.time('toFile');
+        const data1 = await pdf.toFile();
+        console.log('data1', data1.length);
+        console.timeEnd('toFile');
+
+      } catch (error) {
+        console.log(error);
+      }
     }
+
+
   </script>
 </body>
 

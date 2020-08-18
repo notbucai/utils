@@ -19,6 +19,7 @@
     "@babel/polyfill": "^7.10.4",
     "core-js": "^2.6.11",
     "lodash": "^4.17.20",
+    "pdfjs-dist": "^2.4.456",
     "xlsx": "^0.16.6"
   },
   "devDependencies": {
@@ -26,6 +27,7 @@
     "@babel/preset-env": "^7.11.0",
     "@types/jest": "^26.0.9",
     "@types/lodash": "^4.14.159",
+    "@types/pdfjs-dist": "^2.1.5",
     "babel-loader": "^8.1.0",
     "babel-plugin-lodash": "^3.3.4",
     "cz-conventional-changelog": "^3.2.0",

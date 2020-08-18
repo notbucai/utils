@@ -27,6 +27,7 @@ module.exports = {
   },
   externals: {
     'xlsx': 'XLSX',
+    'pdfjs-dist': 'pdfjsLib',
     // '_': 'lodash',
   },
   plugins: [
