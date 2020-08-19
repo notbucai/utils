@@ -4,6 +4,7 @@
     "sourceMap": true,
     "noImplicitAny": false,
     "noUnusedParameters": true,
+    "allowSyntheticDefaultImports":true,
     "moduleResolution": "node",
     "module": "esnext",
     "target": "esnext",

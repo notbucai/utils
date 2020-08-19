@@ -1,3 +1,5 @@
 export * from './xlsx'
 export * from './pdf'
 export * from './encrypt'
+export * from './file'
+export * from './image'

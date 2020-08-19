@@ -28,6 +28,7 @@ module.exports = {
   externals: {
     'xlsx': 'XLSX',
     'pdfjs-dist': 'pdfjsLib',
+    'browser-image-compression': 'imageCompression',
     // '_': 'lodash',
   },
   plugins: [

@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.10.4",
+    "browser-image-compression": "^1.0.12",
     "core-js": "^2.6.11",
     "lodash": "^4.17.20",
     "pdfjs-dist": "^2.4.456",
