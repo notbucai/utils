@@ -33,13 +33,13 @@
       console.log('url1', url1);
       appendImage(url1);
 
-      const imgFile = await utils.compress(el.files[0], {
+      const imgFile = await utils.image.compress(el.files[0], {
         maxSizeMB: 0.2,
         maxWidthOrHeight: 500,
       });
       console.log('imgFile.size', imgFile.size);
 
-      const url2 = utils.blobToUrl(imgFile);
+      const url2 = utils.file.blobToUrl(imgFile);
       console.log('url2', url2);
       appendImage(url2);
     }

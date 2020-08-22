@@ -30,7 +30,7 @@
     pdfjsLib.GlobalWorkerOptions.workerSrc = '../node_modules/pdfjs-dist/build/pdf.worker.min.js'
     // utils.exportXlsx([{ a: 1, b: 2, c: 3 }], { a: "我", b: "是", c: "谁" },'t');
     const format = { a: "我", b: "是", c: "谁" };
-    const down = utils.asyncExportXlsxFile({
+    const down = utils.xlsx.asyncExportXlsxFile({
       format,
       callback(index) {
         return new Promise((resolve) => {
@@ -49,7 +49,7 @@
       const file = e.files[0];
       try {
         console.time(1);
-        const pdf = await utils.pdfParse(file);
+        const pdf = await utils.pdf.pdfParse(file);
         console.timeEnd(1);
 
         console.log('pdf', pdf);
